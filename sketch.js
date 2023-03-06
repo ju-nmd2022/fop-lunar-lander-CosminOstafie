@@ -151,7 +151,7 @@ function draw() {
       textSize(14);
       stroke(0);
       fill(0);
-      text("Fuel:" + fuel + "units", 20, 20);
+      text("Fuel: " + fuel + " units", 20, 20);
 
       // Check if rocket hits the landing pad
       if (
