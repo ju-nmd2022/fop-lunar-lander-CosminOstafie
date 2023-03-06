@@ -153,6 +153,17 @@ function draw() {
       fill(0);
       text("Fuel: " + fuel + " units", 20, 20);
 
+      //Write the speed in px/s
+      textAlign(RIGHT, CENTER);
+      textSize(14);
+      stroke(0);
+      fill(0);
+      text(
+        "Vertical Speed: " + round(rocketSpeedY * 5) + " m/s",
+        width - 50,
+        30
+      );
+
       // Check if rocket hits the landing pad
       if (
         rocketY + rocketSize / 2 >= padY &&
