@@ -19,8 +19,13 @@ let maxSpeedY;
 // Landing pad properties
 let padX, padY, padWidth, padHeight;
 
+// Variables for fuel
+let fuel;
+let fuelMax;
+let fuelConsumption;
+
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(600, 600);
   textAlign(CENTER);
 
   //This was used to understand gravity and acceleration
@@ -43,6 +48,10 @@ function setup() {
   padY = height - 50;
   padWidth = 100;
   padHeight = 10;
+
+  // Initialize fuel variables
+  fuel = fuelMax = 200;
+  fuelConsumption = 1;
 }
 
 function draw() {
@@ -58,8 +67,9 @@ function draw() {
 
     case STATE_PLAYING:
       // Apply acceleration to the rocket
-      if (keyIsDown(UP_ARROW)) {
+      if (keyIsDown(UP_ARROW) && fuel > 0) {
         rocketAccelerationY = -0.1;
+        fuel -= fuelConsumption;
       } else {
         rocketAccelerationY = 0;
       }
@@ -136,6 +146,13 @@ function draw() {
       fill(0, 255, 0);
       rect(padX, padY, padWidth, padHeight);
 
+      //Write the fuel amount in units
+      textAlign(LEFT, TOP);
+      textSize(14);
+      stroke(0);
+      fill(0);
+      text("Fuel:" + fuel + "units", 20, 20);
+
       // Check if rocket hits the landing pad
       if (
         rocketY + rocketSize / 2 >= padY &&
@@ -192,6 +209,18 @@ function draw() {
         noLoop();
       }
 
+      // Out of fuel case
+      if (fuel <= 0) {
+        textSize(32);
+        textAlign(CENTER, CENTER);
+        fill(255, 0, 0);
+        text("OUT OF FUEL", width / 2, height / 2);
+
+        // Update game state
+        gameState = STATE_GAME_OVER;
+        noLoop();
+      }
+
       if (gameState === STATE_GAME_OVER) {
         // Display game over screen
         textSize(24);
@@ -219,6 +248,9 @@ function resetGame() {
   rocketSpeedY = 0;
   rocketAccelerationX = 0;
   rocketAccelerationY = 0;
+
+  // Reset fuel
+  fuel = fuelMax;
 
   // Reset game state
   gameState = STATE_START;
