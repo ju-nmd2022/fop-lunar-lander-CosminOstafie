@@ -1,0 +1,77 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "Making the rocket for the game."
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "First we define the variables that will be used in the game to help building the rocket."
+  },
+  {
+    "kind": 2,
+    "language": "javascript",
+    "value": "let rocketX;\r\nlet rocketY;"
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "In the setup function we will initialize those variables."
+  },
+  {
+    "kind": 2,
+    "language": "javascript",
+    "value": "\r\nfunction setup(){\r\n createCanvas(800,800);\r\n background(220);\r\n rocketX=width/2; // This way we make the rocket spawn at the middle of X-axis\r\n rocketY=50; // Makes the rocket spawn high on the canvas so the player has time to control it\r\n}\r\n"
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "Next we start creating the elements of the rocket.\r\nWe start with the body of the rocket."
+  },
+  {
+    "kind": 2,
+    "language": "javascript",
+    "value": "\r\nfunction setup(){\r\n    createCanvas(800,800);\r\n    background(220);\r\n    rocketX=width/2;\r\n    rocketY=50;\r\n   }\r\n   function draw(){\r\n        //Rocket Body\r\n    fill(253, 218, 13);\r\n    ellipse(rocketX, rocketY, 30, 70); //The body of the rocket will be a 30x70 yellow ellipse\r\n   }\r\n   "
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "We continue with the rocket head. To do that we will use 2 curveVertexes that will form a line on the body of the rocket. This creates the effect of having a separate head to the rocket."
+  },
+  {
+    "kind": 2,
+    "language": "javascript",
+    "value": "function setup(){\r\n    createCanvas(800,800);\r\n    background(220);\r\n    rocketX=width/2;\r\n    rocketY=50; \r\n   }\r\n   function draw(){\r\n        //Rocket Body\r\n    fill(253, 218, 13);\r\n    ellipse(rocketX, rocketY, 30, 70); //The body of the rocket will be a 30x70 yellow ellipse\r\n\r\n    //Rocket Head\r\n    beginShape();\r\n    curveVertex(rocketX - 10, rocketY - 25);\r\n    curveVertex(rocketX + 10, rocketY - 25);\r\n    endShape(CLOSE);\r\n   }"
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "Now we have to make the bottom of the rocket to make it look like it has an engine."
+  },
+  {
+    "kind": 2,
+    "language": "javascript",
+    "value": "function setup(){\r\n    createCanvas(800,800);\r\n    background(220);\r\n    rocketX=width/2; \r\n    rocketY=50; \r\n   }\r\n   function draw(){\r\n        //Rocket Body\r\n    fill(253, 218, 13);\r\n    ellipse(rocketX, rocketY, 30, 70); //The body of the rocket will be a 30x70 yellow ellipse\r\n//Rocket Head\r\nbeginShape();\r\ncurveVertex(rocketX - 10, rocketY - 25);\r\ncurveVertex(rocketX + 10, rocketY - 25);\r\nendShape(CLOSE);\r\n//Rocket Bottom\r\nfill(153, 25, 33);\r\n// This creates a four-sided polygon, works similar to rect(), but the edges are not constrained to 90 degrees.\r\n// Also you have to declare all 4 points. quad(x1,y1,x2,y2,x3,y3,x4,y4) . \r\nquad(\r\n  rocketX - 10,\r\n  rocketY + 28,\r\n  rocketX - 10,\r\n  rocketY + 35,\r\n  rocketX + 10,\r\n  rocketY + 35,\r\n  rocketX + 10,\r\n  rocketY + 28\r\n);\r\n   }"
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "Next up we have to create the legs of the rocket. We will use only an ellipse for the front leg and for the side legs we will use an arc + quad."
+  },
+  {
+    "kind": 2,
+    "language": "javascript",
+    "value": "function setup(){\r\n    createCanvas(800,800);\r\n    background(220);\r\n    rocketX=width/2; \r\n    rocketY=50; \r\n   }\r\n   function draw(){\r\n        //Rocket Body\r\n    fill(253, 218, 13);\r\n    ellipse(rocketX, rocketY, 30, 70); //The body of the rocket will be a 30x70 yellow ellipse\r\n//Rocket Head\r\nbeginShape();\r\ncurveVertex(rocketX - 10, rocketY - 25);\r\ncurveVertex(rocketX + 10, rocketY - 25);\r\nendShape(CLOSE);\r\n//Rocket Bottom\r\nfill(153, 25, 33);\r\nquad(\r\n  rocketX - 10,\r\n  rocketY + 28,\r\n  rocketX - 10,\r\n  rocketY + 35,\r\n  rocketX + 10,\r\n  rocketY + 35,\r\n  rocketX + 10,\r\n  rocketY + 28\r\n);\r\n\r\n//Rocket Front Leg\r\nfill(203, 25, 33);\r\nellipse(rocketX, rocketY + 30, 10, 35);\r\n//Rocket Left Leg\r\nfill(203, 25, 33);\r\nquad(\r\n  rocketX - 13,\r\n  rocketY + 15,\r\n  rocketX - 25,\r\n  rocketY + 20,\r\n  rocketX - 25,\r\n  rocketY + 30,\r\n  rocketX - 13,\r\n  rocketY + 20\r\n);\r\n\r\n//arc(x,y,w,h,start,stop,[mode]) -> The CHORD mode outlines the whole arc.\r\n//the left leg starts at 90 degrees and ends at 270 degrees and is 10 px wide and 35 high\r\narc(rocketX - 25, rocketY + 30, 10, 35, HALF_PI, (3 * PI) / 2, CHORD); \r\n\r\n//Rocket Right Leg\r\nquad(\r\n  rocketX + 13,\r\n  rocketY + 15,\r\n  rocketX + 25,\r\n  rocketY + 20,\r\n  rocketX + 25,\r\n  rocketY + 30,\r\n  rocketX + 13,\r\n  rocketY + 20\r\n);\r\n//Same story with this leg as well but we have to switch the start and stop points.\r\narc(rocketX + 25, rocketY + 30, 10, 35, (3 * PI) / 2, HALF_PI, CHORD);\r\n   }"
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "Lastly we will add a window to our rocket using another ellipse()."
+  },
+  {
+    "kind": 2,
+    "language": "javascript",
+    "value": "function setup(){\r\n     createCanvas(800,800);\r\n     background(220);\r\n     rocketX=width/2; \r\n     rocketY=50; \r\n    }\r\n    function draw(){\r\n         //Rocket Body\r\n     fill(253, 218, 13);\r\n     ellipse(rocketX, rocketY, 30, 70); //The body of the rocket will be a 30x70 yellow ellipse\r\n //Rocket Head\r\n beginShape();\r\n curveVertex(rocketX - 10, rocketY - 25);\r\n curveVertex(rocketX + 10, rocketY - 25);\r\n endShape(CLOSE);\r\n //Rocket Bottom\r\n fill(153, 25, 33);\r\n quad(\r\n   rocketX - 10,\r\n   rocketY + 28,\r\n   rocketX - 10,\r\n   rocketY + 35,\r\n   rocketX + 10,\r\n   rocketY + 35,\r\n   rocketX + 10,\r\n   rocketY + 28\r\n );\r\n \r\n //Rocket Front Leg\r\n fill(203, 25, 33);\r\n ellipse(rocketX, rocketY + 30, 10, 35);\r\n //Rocket Left Leg\r\n fill(203, 25, 33);\r\n quad(\r\n   rocketX - 13,\r\n   rocketY + 15,\r\n   rocketX - 25,\r\n   rocketY + 20,\r\n   rocketX - 25,\r\n   rocketY + 30,\r\n   rocketX - 13,\r\n   rocketY + 20\r\n );\r\n\r\n //arc(x,y,w,h,start,stop,[mode]) -> The CHORD mode outlines the whole arc.\r\n //the left leg starts at 90 degrees and ends at 270 degrees and is 10 px wide and 35 high\r\n arc(rocketX - 25, rocketY + 30, 10, 35, HALF_PI, (3 * PI) / 2, CHORD);\r\n \r\n //Rocket Right Leg\r\n quad(\r\n   rocketX + 13,\r\n   rocketY + 15,\r\n   rocketX + 25,\r\n   rocketY + 20,\r\n   rocketX + 25,\r\n   rocketY + 30,\r\n   rocketX + 13,\r\n   rocketY + 20\r\n );\r\n\r\n //Same story with this leg as well but we have to switch the start and stop points.\r\n arc(rocketX + 25, rocketY + 30, 10, 35, (3 * PI) / 2, HALF_PI, CHORD);\r\n   \r\n //Rocket Window\r\n fill(203, 253, 255);\r\n ellipse(rocketX, rocketY - 5, 15); \r\n}"
+  }
+]
