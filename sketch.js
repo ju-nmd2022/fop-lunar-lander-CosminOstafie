@@ -6,7 +6,12 @@ const STATE_START = 0;
 const STATE_PLAYING = 1;
 const STATE_GAME_OVER = 2;
 
-let gameState;
+let gameState; //Variable used to switch and compare the states of the game.
+
+// Background stars variables
+let starX = [];
+let starY = [];
+let starAlpha = [];
 
 // Rocket properties
 let rocketX, rocketY;
@@ -27,6 +32,19 @@ let fuelConsumption;
 function setup() {
   createCanvas(600, 600);
   textAlign(CENTER);
+  frameRate(30);
+
+  //Background stars
+
+  for (let i = 0; i < 300; i++) {
+    const x = Math.floor(Math.random() * width);
+    const y = Math.floor(Math.random() * height);
+    const alpha = Math.random();
+
+    starX.push(x);
+    starY.push(y);
+    starAlpha.push(alpha);
+  }
 
   //This was used to understand gravity and acceleration
   //https://editor.p5js.org/hosken/sketches/-mKtTzLUU
@@ -50,7 +68,7 @@ function setup() {
   padHeight = 10;
 
   // Initialize fuel variables
-  fuel = fuelMax = 200;
+  fuel = fuelMax = 300;
   fuelConsumption = 1;
 }
 
@@ -88,6 +106,20 @@ function draw() {
       rocketSpeedY = min(rocketSpeedY, maxSpeedY); // Limit maximum falling speed
       rocketX += rocketSpeedX;
       rocketY += rocketSpeedY;
+
+      //Draw night sky - Credits https://www.youtube.com/watch?v=kISBKRn-6_I&t=295s&ab_channel=Garrit
+
+      push();
+      noStroke();
+      background(0);
+
+      for (let index in starX) {
+        fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
+        ellipse(starX[index], starY[index], 3);
+        starAlpha[index] += 0.02;
+      }
+
+      pop();
 
       // Draw the rocket
       //Rocket Body
@@ -143,21 +175,31 @@ function draw() {
       arc(rocketX + 25, rocketY + 30, 10, 35, (3 * PI) / 2, HALF_PI, CHORD);
 
       // Draw the landing pad
-      fill(0, 255, 0);
-      rect(padX, padY, padWidth, padHeight);
+      fill(220);
+      rect(padX, padY, padWidth, padHeight, 5);
+      fill(255, 0, 0);
+      noStroke();
+      //Draw the lights of the landing pad. I used multiples of 7 for the X position of the lights.
+      ellipse(padX + 7, padY + 5, 6);
+      ellipse(padX + 21, padY + 5, 6);
+      ellipse(padX + 35, padY + 5, 6);
+      ellipse(padX + 49, padY + 5, 6);
+      ellipse(padX + 63, padY + 5, 6);
+      ellipse(padX + 77, padY + 5, 6);
+      ellipse(padX + 91, padY + 5, 6);
 
       //Write the fuel amount in units
       textAlign(LEFT, TOP);
       textSize(14);
       stroke(0);
-      fill(0);
+      fill(255);
       text("Fuel: " + fuel + " units", 20, 20);
 
       //Write the speed in px/s
       textAlign(RIGHT, CENTER);
       textSize(14);
       stroke(0);
-      fill(0);
+      fill(255);
       text(
         "Vertical Speed: " + round(rocketSpeedY * 5) + " m/s",
         width - 50,
@@ -235,7 +277,7 @@ function draw() {
       if (gameState === STATE_GAME_OVER) {
         // Display game over screen
         textSize(24);
-        fill(0);
+        fill(255);
         text("Press ENTER to restart", width / 2, height / 2 + 50);
       }
   }
