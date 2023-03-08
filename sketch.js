@@ -82,6 +82,7 @@ function draw() {
       textSize(32);
       fill(0);
       text("Press SPACE to start", width / 2, height / 2);
+      text("Use the arrows to control the ship", width / 2, height / 2 + 40);
       break;
 
     case STATE_PLAYING:
@@ -226,6 +227,7 @@ function draw() {
           rocketAccelerationY = 0;
 
           // Update game state
+          // We will use noLoop() to stop draw() function
           gameState = STATE_GAME_OVER;
           noLoop();
         } else {
@@ -304,6 +306,7 @@ function resetGame() {
   fuel = fuelMax;
 
   // Reset game state
+  //We use loop() to make the draw() function loop again after restart
   gameState = STATE_START;
   loop();
 }
