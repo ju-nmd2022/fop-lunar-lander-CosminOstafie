@@ -30,7 +30,8 @@ let fuelMax;
 let fuelConsumption;
 
 function setup() {
-  createCanvas(600, 600);
+  let cnv = createCanvas(windowWidth, windowHeight);
+  cnv.style("display", "block");
   textAlign(CENTER);
   frameRate(30);
 
@@ -108,17 +109,14 @@ function draw() {
       rocketY += rocketSpeedY;
 
       //Draw night sky - Credits https://www.youtube.com/watch?v=kISBKRn-6_I&t=295s&ab_channel=Garrit
-
       push();
       noStroke();
       background(0);
-
       for (let index in starX) {
         fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
         ellipse(starX[index], starY[index], 3);
         starAlpha[index] += 0.02;
       }
-
       pop();
 
       // Draw the rocket
@@ -308,4 +306,8 @@ function resetGame() {
   // Reset game state
   gameState = STATE_START;
   loop();
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
